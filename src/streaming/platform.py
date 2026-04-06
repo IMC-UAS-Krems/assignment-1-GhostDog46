@@ -9,6 +9,15 @@ Classes to implement:
 """
 
 import datetime
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from .tracks import Track, Song
+    from .users import FamilyAccountUser, PremiumUser, User, FamilyMember
+    from .artists import Artist
+    from .playlists import CollaborativePlaylist, Playlist
+    from .sessions import ListeningSession
+    from .albums import Album
+
 from .tracks import Track, Song
 from .users import FamilyAccountUser, PremiumUser, User, FamilyMember
 from .artists import Artist
@@ -43,6 +52,7 @@ class StreamingPlatform:
 
     def record_session(self, session: ListeningSession):
         self._sessions.append(session)
+        session.user.add_session(session)
 
     def get_track(self, track_id: str) -> Track | None:
         return self._catalogue.get(track_id)
